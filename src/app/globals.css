@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #0a0a0a;
+  color: rgba(255,255,255,0.88);
+}
+
+@layer components {
+  .input {
+    @apply w-full rounded-md border border-white/8 bg-[#1c1c1c] px-3 py-2 text-sm text-white outline-none placeholder-white/20 transition-colors focus:border-amber-300;
+  }
+
+  .pill {
+    @apply rounded-md border px-3 py-1.5 font-mono text-[11px] tracking-wider transition-all;
+  }
+
+  .pill-default {
+    @apply border-white/10 text-white/40 hover:border-white/25 hover:text-white/70;
+  }
+
+  .pill-amber {
+    @apply border-amber-300 bg-amber-300/10 text-amber-300;
+  }
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
