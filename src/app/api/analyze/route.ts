@@ -1,10 +1,7 @@
-import Anthropic from '@anthropic-ai/sdk'
 import { TOD_META, DURATIONS } from '@/lib/constants'
 import type { Shot, Trip } from '@/types'
 
 export const runtime = 'edge'
-
-const client = new Anthropic()
 
 export async function POST(req: Request) {
   const { shots, trip }: { shots: Shot[]; trip: Trip } = await req.json()
@@ -16,7 +13,6 @@ export async function POST(req: Request) {
     dawn: 0, day: 1, golden: 2, dusk: 3, night: 4, flex: 5,
   }
 
-  // Build day-by-day text
   let byDay = ''
   for (let d = 0; d < trip.days; d++) {
     const dayShots = shots
@@ -66,21 +62,43 @@ ${isIntl ? '機票、住宿、地面交通' : '交通費'} + 場地費，按場�
 
 實用清晰，逐日列明具體時間。`
 
-  const stream = await client.messages.stream({
-    model: 'claude-opus-4-5',
-    max_tokens: 2000,
-    messages: [{ role: 'user', content: prompt }],
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': process.env.ANTHROPIC_API_KEY ?? '',
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify({
+      model: 'claude-opus-4-5',
+      max_tokens: 2000,
+      stream: true,
+      messages: [{ role: 'user', content: prompt }],
+    }),
   })
 
   const encoder = new TextEncoder()
   const readable = new ReadableStream({
     async start(controller) {
-      for await (const chunk of stream) {
-        if (
-          chunk.type === 'content_block_delta' &&
-          chunk.delta.type === 'text_delta'
-        ) {
-          controller.enqueue(encoder.encode(chunk.delta.text))
+      const reader = resp.body!.getReader()
+      const dec = new TextDecoder()
+      let buf = ''
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        buf += dec.decode(value, { stream: true })
+        const lines = buf.split('\n')
+        buf = lines.pop() ?? ''
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue
+          const data = line.slice(6).trim()
+          if (data === '[DONE]') continue
+          try {
+            const json = JSON.parse(data)
+            if (json.type === 'content_block_delta' && json.delta?.text) {
+              controller.enqueue(encoder.encode(json.delta.text))
+            }
+          } catch {}
         }
       }
       controller.close()
