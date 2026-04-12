@@ -2,31 +2,148 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --surface-soft: #f9fafc;
+  --line: #d9e1ec;
+  --line-strong: #c7d2e3;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --muted-soft: #8b95a7;
+  --primary: #0073ea;
+  --primary-soft: #e9f3ff;
+  --success: #00c875;
+  --danger: #e2445c;
+  --warning: #fdab3d;
+  --shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+html {
+  background: var(--bg);
+}
 
 body {
-  font-family: 'DM Sans', sans-serif;
-  background: #0a0a0a;
-  color: rgba(255,255,255,0.88);
+  font-family: 'Figtree', sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(0, 115, 234, 0.08), transparent 22%),
+    linear-gradient(180deg, #f7f9fc 0%, #f3f5f8 100%);
+  color: var(--text);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 @layer components {
+  .workspace-shell {
+    @apply min-h-screen bg-transparent text-[var(--text)];
+  }
+
+  .workspace-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    @apply rounded-2xl;
+  }
+
+  .workspace-card-soft {
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    @apply rounded-2xl;
+  }
+
   .input {
-    @apply w-full rounded-md border border-white/8 bg-[#1c1c1c] px-3 py-2 text-sm text-white outline-none placeholder-white/20 transition-colors focus:border-amber-300;
+    @apply w-full rounded-xl border px-3.5 py-2.5 text-sm outline-none transition-colors;
+    border-color: var(--line);
+    background: #fff;
+    color: var(--text);
+  }
+
+  .input::placeholder {
+    color: var(--muted-soft);
+  }
+
+  .input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 115, 234, 0.12);
   }
 
   .pill {
-    @apply rounded-md border px-3 py-1.5 font-mono text-[11px] tracking-wider transition-all;
+    @apply rounded-full border px-3 py-1.5 text-xs font-semibold transition-all;
   }
 
   .pill-default {
-    @apply border-white/10 text-white/40 hover:border-white/25 hover:text-white/70;
+    border-color: var(--line);
+    background: #fff;
+    color: var(--muted);
   }
 
-  .pill-amber {
-    @apply border-amber-300 bg-amber-300/10 text-amber-300;
+  .pill-default:hover {
+    border-color: var(--line-strong);
+    color: var(--text);
+    background: #f8fafc;
+  }
+
+  .pill-primary {
+    border-color: transparent;
+    background: var(--primary-soft);
+    color: var(--primary);
+  }
+
+  .top-pill {
+    @apply rounded-full px-3 py-1 text-xs font-semibold;
+    background: #eef2ff;
+    color: #4f46e5;
+  }
+
+  .primary-btn {
+    @apply rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all;
+    background: var(--primary);
+    box-shadow: 0 10px 20px rgba(0, 115, 234, 0.18);
+  }
+
+  .primary-btn:hover {
+    background: #0060c7;
+  }
+
+  .secondary-btn {
+    @apply rounded-xl border px-4 py-2.5 text-sm font-semibold transition-all;
+    border-color: var(--line);
+    background: #fff;
+    color: var(--text);
+  }
+
+  .secondary-btn:hover {
+    border-color: var(--line-strong);
+    background: #f8fafc;
+  }
+
+  .section-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.18em];
+    color: var(--muted-soft);
+  }
+
+  .mono-label {
+    font-family: 'IBM Plex Mono', monospace;
   }
 }
 
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}

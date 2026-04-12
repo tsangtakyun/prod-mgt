@@ -1,6 +1,6 @@
 'use client'
 import { useStore } from '@/lib/store'
-import { TOD_META, TOD_ORDER, DURATIONS } from '@/lib/constants'
+import { TOD_META, TOD_ORDER } from '@/lib/constants'
 import { fmtDate, durLabel } from '@/lib/utils'
 
 export default function ScheduleView() {
@@ -8,30 +8,28 @@ export default function ScheduleView() {
   const shots = useStore((s) => s.shots)
 
   if (!trip || !shots.length) {
-    return <div className="py-10 text-center text-sm text-white/25">請先設定行程日期並加入場景</div>
+    return <div className="p-6 text-center text-sm text-slate-400">請先設定行程日期並加入場景</div>
   }
 
   const totalMins = shots.reduce((a, s) => a + parseInt(s.dur), 0)
   const countries = new Set(shots.map((s) => s.country.code)).size
 
   return (
-    <div className="p-6">
-      {/* Stats */}
-      <div className="mb-5 grid grid-cols-4 gap-3">
+    <div className="p-5">
+      <div className="mb-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         {[
-          { val: shots.length, key: '場景數量' },
-          { val: `${trip.days}日`, key: '行程天數' },
-          { val: `${(totalMins / 60).toFixed(1)}h`, key: '總拍攝時間' },
-          { val: countries, key: '拍攝國家' },
+          { val: shots.length, key: '場景數量', color: 'text-[var(--primary)]' },
+          { val: `${trip.days} 日`, key: '行程天數', color: 'text-[#7f56d9]' },
+          { val: `${(totalMins / 60).toFixed(1)} h`, key: '總拍攝時間', color: 'text-[var(--warning)]' },
+          { val: countries, key: '拍攝國家', color: 'text-[var(--success)]' },
         ].map((s) => (
-          <div key={s.key} className="rounded-lg border border-white/7 bg-[#161616] p-3">
-            <div className="font-mono text-xl font-medium text-amber-300">{s.val}</div>
-            <div className="mt-0.5 text-[11px] text-white/35">{s.key}</div>
+          <div key={s.key} className="workspace-card px-4 py-4">
+            <div className={`text-3xl font-bold tracking-[-0.04em] ${s.color}`}>{s.val}</div>
+            <div className="mt-1 text-sm text-slate-500">{s.key}</div>
           </div>
         ))}
       </div>
 
-      {/* Day sections */}
       <div className="space-y-5">
         {trip.dates.map((d, dayIdx) => {
           const dayShots = shots
@@ -40,57 +38,68 @@ export default function ScheduleView() {
           const dateObj = new Date(d)
 
           return (
-            <div key={dayIdx}>
-              <div className="mb-2 flex items-center gap-3">
-                <span className="font-mono text-[11px] tracking-widest text-amber-300">
+            <section key={dayIdx} className="workspace-card overflow-hidden">
+              <div className="flex flex-wrap items-center gap-3 border-b border-[var(--line)] bg-slate-50 px-5 py-4">
+                <span className="rounded-full bg-[var(--primary-soft)] px-3 py-1 text-xs font-semibold text-[var(--primary)]">
                   DAY {dayIdx + 1}
                 </span>
-                <span className="text-[11px] text-white/35">{fmtDate(dateObj)}</span>
+                <span className="text-sm font-medium text-slate-700">{fmtDate(dateObj)}</span>
                 {!dayShots.length && (
-                  <span className="text-[11px] italic text-white/20">（未有安排）</span>
+                  <span className="text-sm italic text-slate-400">未有安排</span>
                 )}
               </div>
 
-              <div className="space-y-1.5">
-                {dayShots.map((s, i) => {
-                  const tm = TOD_META[s.tod]
-                  const prevShot = dayShots[i - 1]
-                  const crossCountry = prevShot && prevShot.country.code !== s.country.code
+              <div className="space-y-0">
+                {dayShots.length === 0 ? (
+                  <div className="px-5 py-8 text-sm text-slate-400">呢一日仲未安排任何拍攝。</div>
+                ) : (
+                  dayShots.map((s, i) => {
+                    const tm = TOD_META[s.tod]
+                    const prevShot = dayShots[i - 1]
+                    const crossCountry = prevShot && prevShot.country.code !== s.country.code
 
-                  return (
-                    <div key={s.id}>
-                      {crossCountry && (
-                        <div className="my-1 ml-8 font-mono text-[11px] text-red-400">
-                          ✈ 跨國移動
-                        </div>
-                      )}
-                      <div className="flex items-start gap-3 rounded-md bg-[#161616] p-3">
-                        <span className="mt-0.5 text-lg leading-none">{tm.icon}</span>
-                        <div className="min-w-0 flex-1">
-                          <div className="mb-1 font-medium">{s.name}</div>
-                          <div className="flex flex-wrap gap-3 text-[11px] text-white/40">
-                            <span>{s.country.flag} {s.loc}</span>
-                            <span style={{ color: tm.color }}>{tm.hint}</span>
-                            <span>{durLabel(s.dur)}</span>
+                    return (
+                      <div key={s.id} className="border-t border-[var(--line)] first:border-t-0">
+                        {crossCountry && (
+                          <div className="border-b border-[var(--line)] bg-[#fff3e8] px-5 py-2 text-xs font-semibold text-[#b54708]">
+                            ✈ 跨國移動
+                          </div>
+                        )}
+                        <div className="flex flex-col gap-3 px-5 py-4 lg:flex-row lg:items-start lg:justify-between">
+                          <div className="min-w-0 flex-1">
+                            <div className="mb-1 text-lg font-semibold text-slate-800">{s.name}</div>
+                            <div className="flex flex-wrap gap-3 text-sm text-slate-500">
+                              <span>{s.country.flag} {s.loc}</span>
+                              <span className="font-medium" style={{ color: tm.color }}>{tm.hint}</span>
+                              <span>{durLabel(s.dur)}</span>
+                            </div>
+                            {s.props && (
+                              <div className="mt-2 text-sm text-slate-500">🎒 {s.props}</div>
+                            )}
+                          </div>
+
+                          <div className="flex flex-wrap items-center gap-2">
                             <span
-                              className="rounded-full border px-2 py-0.5 font-mono text-[10px]"
-                              style={{ borderColor: s.type.color, color: s.type.color, background: `rgba(${s.type.rgb},0.08)` }}
+                              className="inline-flex rounded-full border px-3 py-1 text-xs font-semibold"
+                              style={{ borderColor: `${s.type.color}44`, color: s.type.color, background: `rgba(${s.type.rgb},0.08)` }}
                             >
                               {s.type.label}
                             </span>
+                            <span
+                              className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold"
+                              style={{ borderColor: `${tm.color}44`, color: tm.color, background: `${tm.color}12` }}
+                            >
+                              <span>{tm.icon}</span>
+                              <span>{tm.label}</span>
+                            </span>
                           </div>
-                          {s.props && (
-                            <div className="mt-1 text-[11px] text-white/30">
-                              🎒 {s.props}
-                            </div>
-                          )}
                         </div>
                       </div>
-                    </div>
-                  )
-                })}
+                    )
+                  })
+                )}
               </div>
-            </div>
+            </section>
           )
         })}
       </div>

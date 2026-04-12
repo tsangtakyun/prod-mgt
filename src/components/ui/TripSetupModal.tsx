@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { CalendarDays, Plane } from 'lucide-react'
 import { buildTripDates } from '@/lib/utils'
 import { useStore } from '@/lib/store'
 import type { Trip } from '@/types'
@@ -33,52 +34,71 @@ export default function TripSetupModal({ onClose }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
-      <div className="w-[400px] rounded-xl border border-white/10 bg-[#161616] p-6">
-        <div className="mb-5 font-mono text-sm tracking-widest text-amber-300">
-          設定行程日期範圍
-        </div>
-
-        <div className="mb-4 grid grid-cols-2 gap-3">
-          <div>
-            <label className="mb-1 block font-mono text-[10px] tracking-widest text-white/35">出發日期</label>
-            <input
-              type="date"
-              value={start}
-              onChange={(e) => setStart(e.target.value)}
-              className="w-full rounded-md border border-white/8 bg-[#1c1c1c] px-3 py-2 text-sm text-white outline-none focus:border-amber-300"
-            />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 px-4 backdrop-blur-sm">
+      <div className="w-full max-w-[520px] rounded-[28px] border border-[var(--line)] bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.18)]">
+        <div className="mb-5 flex items-start gap-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--primary-soft)] text-[var(--primary)]">
+            <Plane className="h-5 w-5" />
           </div>
           <div>
-            <label className="mb-1 block font-mono text-[10px] tracking-widest text-white/35">返回日期</label>
-            <input
-              type="date"
-              value={end}
-              onChange={(e) => setEnd(e.target.value)}
-              className="w-full rounded-md border border-white/8 bg-[#1c1c1c] px-3 py-2 text-sm text-white outline-none focus:border-amber-300"
-            />
+            <div className="section-label mono-label">trip setup</div>
+            <h2 className="mt-1 text-2xl font-bold tracking-[-0.03em] text-slate-800">設定行程日期範圍</h2>
+            <p className="mt-1 text-sm text-slate-500">先建立 trip 基本資料，之後先可以安排每一個拍攝場景。</p>
+          </div>
+        </div>
+
+        <div className="mb-4 grid gap-3 md:grid-cols-2">
+          <div>
+            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">出發日期</label>
+            <div className="relative">
+              <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <input
+                type="date"
+                value={start}
+                onChange={(e) => setStart(e.target.value)}
+                className="input pl-10"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">返回日期</label>
+            <div className="relative">
+              <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <input
+                type="date"
+                value={end}
+                onChange={(e) => setEnd(e.target.value)}
+                className="input pl-10"
+              />
+            </div>
           </div>
         </div>
 
         <div className="mb-5">
-          <label className="mb-1 block font-mono text-[10px] tracking-widest text-white/35">行程名稱（可選）</label>
+          <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">行程名稱（可選）</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="例：東京拍攝之旅、IG Reel 香港篇..."
-            className="w-full rounded-md border border-white/8 bg-[#1c1c1c] px-3 py-2 text-sm text-white placeholder-white/20 outline-none focus:border-amber-300"
+            className="input"
           />
         </div>
 
-        {error && <p className="mb-3 text-xs text-red-400">{error}</p>}
+        {error && (
+          <div className="mb-4 rounded-xl border border-[rgba(226,68,92,0.18)] bg-[rgba(226,68,92,0.08)] px-3 py-2 text-sm text-[var(--danger)]">
+            {error}
+          </div>
+        )}
 
-        <button
-          onClick={confirm}
-          className="w-full rounded-md bg-amber-300 py-2.5 font-mono text-xs font-medium tracking-widest text-black transition-opacity hover:opacity-85"
-        >
-          確認行程
-        </button>
+        <div className="flex gap-3">
+          <button onClick={onClose} className="secondary-btn flex-1" type="button">
+            Cancel
+          </button>
+          <button onClick={confirm} className="primary-btn flex-1" type="button">
+            Confirm Trip
+          </button>
+        </div>
       </div>
     </div>
   )

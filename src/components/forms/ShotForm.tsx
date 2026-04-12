@@ -30,14 +30,26 @@ export default function ShotForm() {
     if (!loc.trim()) { setError('請填寫具體地點'); return }
     setError('')
     addShot({ name: name.trim(), day, tod, dur, type: platform, country, loc: loc.trim(), props: props.trim() })
-    setName(''); setDay(null); setTod(null); setDur(null); setPlatform(null); setLoc(''); setProps('')
+    setName('')
+    setDay(null)
+    setTod(null)
+    setDur(null)
+    setPlatform(null)
+    setCountry(null)
+    setLoc('')
+    setProps('')
   }
 
   const todKeys = Object.keys(TOD_META) as TimeOfDay[]
 
   return (
-    <div className="space-y-4 p-6">
-      {/* Name */}
+    <div className="space-y-5 p-5">
+      <div>
+        <div className="section-label mono-label">new shot</div>
+        <h2 className="mt-1 text-xl font-bold tracking-[-0.03em] text-slate-800">Add New Scene</h2>
+        <p className="mt-1 text-sm text-slate-500">好似喺 monday board 開一個 item 咁，填完就會自動加入 scene list。</p>
+      </div>
+
       <div>
         <Label>片段名稱</Label>
         <input
@@ -48,11 +60,10 @@ export default function ShotForm() {
         />
       </div>
 
-      {/* Day selector */}
       <div>
         <Label>拍攝日（第幾日）</Label>
         {!trip ? (
-          <p className="text-xs text-white/25">請先設定行程日期</p>
+          <p className="text-sm text-slate-400">請先設定行程日期</p>
         ) : (
           <div className="flex flex-wrap gap-2">
             {trip.dates.map((d, i) => (
@@ -60,7 +71,7 @@ export default function ShotForm() {
                 key={i}
                 type="button"
                 onClick={() => setDay(i)}
-                className={`pill ${day === i ? 'pill-amber' : 'pill-default'}`}
+                className={`pill ${day === i ? 'pill-primary' : 'pill-default'}`}
               >
                 Day {i + 1} · {fmtDateShort(new Date(d))}
               </button>
@@ -69,8 +80,7 @@ export default function ShotForm() {
         )}
       </div>
 
-      {/* TOD + Duration */}
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid gap-5 lg:grid-cols-2">
         <div>
           <Label>拍攝時段</Label>
           <div className="flex flex-wrap gap-2">
@@ -82,10 +92,14 @@ export default function ShotForm() {
                   key={key}
                   type="button"
                   onClick={() => setTod(key)}
-                  style={sel ? { borderColor: meta.color, color: meta.color, background: `rgba(${meta.color},0.1)` } : {}}
-                  className={`flex items-center gap-1 rounded-lg border px-3 py-1.5 text-xs transition-all ${
-                    sel ? 'border-current' : 'border-white/10 text-white/40 hover:border-white/25 hover:text-white/70'
+                  className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all ${
+                    sel ? 'text-slate-800 shadow-sm' : 'text-slate-500'
                   }`}
+                  style={
+                    sel
+                      ? { borderColor: meta.color, color: meta.color, background: '#fff' }
+                      : { borderColor: 'var(--line)', background: '#fff' }
+                  }
                 >
                   <span>{meta.icon}</span>
                   <span>{meta.label}</span>
@@ -103,7 +117,7 @@ export default function ShotForm() {
                 key={d.value}
                 type="button"
                 onClick={() => setDur(d.value)}
-                className={`pill ${dur === d.value ? 'pill-amber' : 'pill-default'}`}
+                className={`pill ${dur === d.value ? 'pill-primary' : 'pill-default'}`}
               >
                 {d.label}
               </button>
@@ -112,7 +126,6 @@ export default function ShotForm() {
         </div>
       </div>
 
-      {/* Platform */}
       <div>
         <Label>平台 / 類型</Label>
         <div className="flex flex-wrap gap-2">
@@ -123,10 +136,12 @@ export default function ShotForm() {
                 key={p.id}
                 type="button"
                 onClick={() => setPlatform(p)}
-                style={sel ? { borderColor: p.color, color: p.color, background: `rgba(${p.rgb},0.1)` } : {}}
-                className={`rounded-full border px-3 py-1 font-mono text-[11px] transition-all ${
-                  sel ? 'border-current' : 'border-white/10 text-white/40 hover:border-white/25 hover:text-white/70'
-                }`}
+                className="rounded-full border px-3 py-1.5 text-xs font-semibold transition-all"
+                style={
+                  sel
+                    ? { borderColor: p.color, color: p.color, background: '#fff' }
+                    : { borderColor: 'var(--line)', color: 'var(--muted)', background: '#fff' }
+                }
               >
                 {p.label}
               </button>
@@ -135,10 +150,9 @@ export default function ShotForm() {
         </div>
       </div>
 
-      {/* Location */}
       <div>
         <Label>拍攝地點</Label>
-        <div className="grid grid-cols-[190px_1fr] gap-2">
+        <div className="grid gap-2 lg:grid-cols-[190px_1fr]">
           <CountrySelector value={country} onChange={setCountry} />
           <input
             value={loc}
@@ -149,8 +163,7 @@ export default function ShotForm() {
         </div>
       </div>
 
-      {/* Props + Submit */}
-      <div className="grid grid-cols-[1fr_auto] items-end gap-3">
+      <div className="grid items-end gap-3 lg:grid-cols-[1fr_auto]">
         <div>
           <Label>所需道具 / 器材</Label>
           <input
@@ -161,23 +174,20 @@ export default function ShotForm() {
             className="input"
           />
         </div>
-        <button
-          onClick={submit}
-          className="rounded-md bg-amber-300 px-5 py-2.5 font-mono text-xs font-medium tracking-wider text-black transition-opacity hover:opacity-85"
-        >
-          + 加入
+        <button onClick={submit} className="primary-btn">
+          Add item
         </button>
       </div>
 
-      {error && <p className="text-xs text-red-400">{error}</p>}
+      {error && (
+        <div className="rounded-xl border border-[rgba(226,68,92,0.18)] bg-[rgba(226,68,92,0.08)] px-3 py-2 text-sm text-[var(--danger)]">
+          {error}
+        </div>
+      )}
     </div>
   )
 }
 
 function Label({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="mb-1.5 font-mono text-[10px] tracking-widest text-white/35 uppercase">
-      {children}
-    </p>
-  )
+  return <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">{children}</p>
 }

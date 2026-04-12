@@ -1,4 +1,5 @@
 'use client'
+import { Trash2 } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import { TOD_META, TOD_ORDER, DURATIONS } from '@/lib/constants'
 
@@ -10,7 +11,7 @@ export default function ShotsTable() {
 
   if (!shots.length) {
     return (
-      <div className="py-10 text-center text-sm text-white/25">
+      <div className="workspace-card-soft flex min-h-[220px] items-center justify-center rounded-2xl text-sm text-slate-400">
         未有場景，請加入拍攝計劃
       </div>
     )
@@ -21,61 +22,76 @@ export default function ShotsTable() {
   )
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full table-fixed border-collapse text-sm">
-        <thead>
-          <tr>
-            {['#', '日', '片段名稱', '地點', '時段', '時長', '平台', '道具', ''].map((h, i) => (
-              <th
-                key={i}
-                className="border-b border-white/7 px-3 py-2 text-left font-mono text-[10px] tracking-widest text-white/30"
-                style={{ width: ['28px','40px','18%','20%','13%','8%','12%','14%','28px'][i] }}
-              >
-                {h}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {sorted.map((s, i) => {
-            const tm = TOD_META[s.tod]
-            return (
-              <tr key={s.id} className="group hover:bg-white/2">
-                <td className="px-3 py-2.5 font-mono text-[10px] text-white/25">{String(i + 1).padStart(2, '0')}</td>
-                <td className="px-3 py-2.5 font-mono text-[11px] text-amber-300">D{s.day + 1}</td>
-                <td className="overflow-hidden text-ellipsis whitespace-nowrap px-3 py-2.5 font-medium">{s.name}</td>
-                <td className="overflow-hidden text-ellipsis whitespace-nowrap px-3 py-2.5">
-                  <span className="mr-1">{s.country.flag}</span>
-                  <span className="text-[10px] text-white/35">{s.country.name}·</span>
-                  {s.loc}
-                </td>
-                <td className="px-3 py-2.5">
-                  <span className="mr-1">{tm.icon}</span>
-                  <span className="text-[11px]" style={{ color: tm.color }}>{tm.label}</span>
-                </td>
-                <td className="px-3 py-2.5 font-mono text-[11px] text-white/45">{durLabel[s.dur]}</td>
-                <td className="px-3 py-2.5">
-                  <span
-                    className="rounded-full border px-2 py-0.5 font-mono text-[10px]"
-                    style={{ borderColor: s.type.color, color: s.type.color, background: `rgba(${s.type.rgb},0.1)` }}
-                  >
-                    {s.type.label}
-                  </span>
-                </td>
-                <td className="overflow-hidden text-ellipsis whitespace-nowrap px-3 py-2.5 text-[11px] text-white/35">{s.props || '—'}</td>
-                <td className="px-3 py-2.5">
-                  <button
-                    onClick={() => removeShot(s.id)}
-                    className="rounded px-1.5 text-[13px] text-white/18 transition-all hover:bg-red-500/10 hover:text-red-400"
-                  >
-                    ✕
-                  </button>
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+    <div className="overflow-hidden rounded-2xl border border-[var(--line)]">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[960px] border-collapse text-sm">
+          <thead className="bg-slate-50">
+            <tr>
+              {['#', 'Day', '片段名稱', '地點', '時段', '時長', '平台', '道具', ''].map((h, i) => (
+                <th
+                  key={i}
+                  className="border-b border-[var(--line)] px-3 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400"
+                  style={{ width: ['42px', '72px', '19%', '21%', '14%', '10%', '12%', '14%', '46px'][i] }}
+                >
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="bg-white">
+            {sorted.map((s, i) => {
+              const tm = TOD_META[s.tod]
+              return (
+                <tr key={s.id} className="border-b border-[var(--line)] last:border-b-0 hover:bg-slate-50/80">
+                  <td className="px-3 py-3 text-xs font-semibold text-slate-400">{String(i + 1).padStart(2, '0')}</td>
+                  <td className="px-3 py-3">
+                    <span className="rounded-full bg-[var(--primary-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--primary)]">
+                      Day {s.day + 1}
+                    </span>
+                  </td>
+                  <td className="px-3 py-3">
+                    <div className="font-semibold text-slate-800">{s.name}</div>
+                  </td>
+                  <td className="px-3 py-3 text-slate-600">
+                    <span className="mr-1.5">{s.country.flag}</span>
+                    <span className="font-medium text-slate-500">{s.country.name}</span>
+                    <span className="mx-1 text-slate-300">·</span>
+                    {s.loc}
+                  </td>
+                  <td className="px-3 py-3">
+                    <span
+                      className="inline-flex items-center gap-2 rounded-full border px-2.5 py-1 text-xs font-semibold"
+                      style={{ borderColor: `${tm.color}44`, color: tm.color, background: `${tm.color}12` }}
+                    >
+                      <span>{tm.icon}</span>
+                      <span>{tm.label}</span>
+                    </span>
+                  </td>
+                  <td className="px-3 py-3 text-sm font-medium text-slate-600">{durLabel[s.dur]}</td>
+                  <td className="px-3 py-3">
+                    <span
+                      className="inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold"
+                      style={{ borderColor: `${s.type.color}44`, color: s.type.color, background: `rgba(${s.type.rgb},0.08)` }}
+                    >
+                      {s.type.label}
+                    </span>
+                  </td>
+                  <td className="px-3 py-3 text-sm text-slate-500">{s.props || '—'}</td>
+                  <td className="px-3 py-3">
+                    <button
+                      onClick={() => removeShot(s.id)}
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-red-50 hover:text-[var(--danger)]"
+                      type="button"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
