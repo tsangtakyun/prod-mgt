@@ -46,8 +46,8 @@ export default function ShotForm() {
     <div className="space-y-5 p-5">
       <div>
         <div className="section-label mono-label">new shot</div>
-        <h2 className="mt-1 text-xl font-bold tracking-[-0.03em] text-slate-800">Add New Scene</h2>
-        <p className="mt-1 text-sm text-slate-500">好似喺 monday board 開一個 item 咁，填完就會自動加入 scene list。</p>
+        <h2 className="mt-1 text-xl font-bold tracking-[-0.03em] text-[var(--text)]">Add New Scene</h2>
+        <p className="mt-1 text-sm text-[var(--muted)]">好似喺 SOON internal board 開一個 item 咁，填完就會自動加入 scene list。</p>
       </div>
 
       <div>
@@ -63,7 +63,7 @@ export default function ShotForm() {
       <div>
         <Label>拍攝日（第幾日）</Label>
         {!trip ? (
-          <p className="text-sm text-slate-400">請先設定行程日期</p>
+          <p className="text-sm text-[var(--muted)]">請先設定行程日期</p>
         ) : (
           <div className="flex flex-wrap gap-2">
             {trip.dates.map((d, i) => (
@@ -93,7 +93,7 @@ export default function ShotForm() {
                   type="button"
                   onClick={() => setTod(key)}
                   className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all ${
-                    sel ? 'text-slate-800 shadow-sm' : 'text-slate-500'
+                    sel ? 'text-[var(--text)] shadow-sm' : 'text-[var(--muted)]'
                   }`}
                   style={
                     sel
@@ -180,7 +180,7 @@ export default function ShotForm() {
       </div>
 
       {error && (
-        <div className="rounded-xl border border-[rgba(226,68,92,0.18)] bg-[rgba(226,68,92,0.08)] px-3 py-2 text-sm text-[var(--danger)]">
+        <div className="rounded-xl border border-[rgba(255,168,168,0.22)] bg-[rgba(255,168,168,0.08)] px-3 py-2 text-sm text-[var(--danger)]">
           {error}
         </div>
       )}
@@ -189,5 +189,5 @@ export default function ShotForm() {
 }
 
 function Label({ children }: { children: React.ReactNode }) {
-  return <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">{children}</p>
+  return <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">{children}</p>
 }

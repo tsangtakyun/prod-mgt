@@ -11,7 +11,7 @@ export default function ShotsTable() {
 
   if (!shots.length) {
     return (
-      <div className="workspace-card-soft flex min-h-[220px] items-center justify-center rounded-2xl text-sm text-slate-400">
+      <div className="workspace-card-soft flex min-h-[220px] items-center justify-center rounded-2xl text-sm text-[var(--muted)]">
         未有場景，請加入拍攝計劃
       </div>
     )
@@ -25,12 +25,12 @@ export default function ShotsTable() {
     <div className="overflow-hidden rounded-2xl border border-[var(--line)]">
       <div className="overflow-x-auto">
         <table className="w-full min-w-[960px] border-collapse text-sm">
-          <thead className="bg-slate-50">
+          <thead className="bg-[var(--surface-soft)]">
             <tr>
               {['#', 'Day', '片段名稱', '地點', '時段', '時長', '平台', '道具', ''].map((h, i) => (
                 <th
                   key={i}
-                  className="border-b border-[var(--line)] px-3 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400"
+                  className="border-b border-[var(--line)] px-3 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]"
                   style={{ width: ['42px', '72px', '19%', '21%', '14%', '10%', '12%', '14%', '46px'][i] }}
                 >
                   {h}
@@ -38,24 +38,24 @@ export default function ShotsTable() {
               ))}
             </tr>
           </thead>
-          <tbody className="bg-white">
+          <tbody className="bg-[var(--surface)]">
             {sorted.map((s, i) => {
               const tm = TOD_META[s.tod]
               return (
-                <tr key={s.id} className="border-b border-[var(--line)] last:border-b-0 hover:bg-slate-50/80">
-                  <td className="px-3 py-3 text-xs font-semibold text-slate-400">{String(i + 1).padStart(2, '0')}</td>
+                <tr key={s.id} className="border-b border-[var(--line)] last:border-b-0 hover:bg-[var(--surface-hover)]">
+                  <td className="px-3 py-3 text-xs font-semibold text-[var(--muted-soft)]">{String(i + 1).padStart(2, '0')}</td>
                   <td className="px-3 py-3">
-                    <span className="rounded-full bg-[var(--primary-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--primary)]">
+                    <span className="rounded-full bg-[var(--primary-soft)] px-2.5 py-1 text-xs font-semibold text-[#cfd5ff]">
                       Day {s.day + 1}
                     </span>
                   </td>
                   <td className="px-3 py-3">
-                    <div className="font-semibold text-slate-800">{s.name}</div>
+                    <div className="font-semibold text-[var(--text)]">{s.name}</div>
                   </td>
-                  <td className="px-3 py-3 text-slate-600">
+                  <td className="px-3 py-3 text-[var(--muted)]">
                     <span className="mr-1.5">{s.country.flag}</span>
-                    <span className="font-medium text-slate-500">{s.country.name}</span>
-                    <span className="mx-1 text-slate-300">·</span>
+                    <span className="font-medium text-[var(--muted)]">{s.country.name}</span>
+                    <span className="mx-1 text-[rgba(255,255,255,0.16)]">·</span>
                     {s.loc}
                   </td>
                   <td className="px-3 py-3">
@@ -67,7 +67,7 @@ export default function ShotsTable() {
                       <span>{tm.label}</span>
                     </span>
                   </td>
-                  <td className="px-3 py-3 text-sm font-medium text-slate-600">{durLabel[s.dur]}</td>
+                  <td className="px-3 py-3 text-sm font-medium text-[var(--muted)]">{durLabel[s.dur]}</td>
                   <td className="px-3 py-3">
                     <span
                       className="inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold"
@@ -76,11 +76,11 @@ export default function ShotsTable() {
                       {s.type.label}
                     </span>
                   </td>
-                  <td className="px-3 py-3 text-sm text-slate-500">{s.props || '—'}</td>
+                  <td className="px-3 py-3 text-sm text-[var(--muted)]">{s.props || '—'}</td>
                   <td className="px-3 py-3">
                     <button
                       onClick={() => removeShot(s.id)}
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-red-50 hover:text-[var(--danger)]"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-[var(--muted-soft)] transition-all hover:bg-[rgba(255,168,168,0.08)] hover:text-[var(--danger)]"
                       type="button"
                     >
                       <Trash2 className="h-4 w-4" />

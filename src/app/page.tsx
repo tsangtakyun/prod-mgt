@@ -38,11 +38,11 @@ export default function Home() {
             </div>
             <div>
               <div className="top-pill mb-2 inline-flex items-center gap-2">prod-mgt workspace</div>
-              <h1 className="text-2xl font-bold tracking-[-0.03em] text-slate-800 lg:text-[30px]">
+              <h1 className="text-2xl font-bold tracking-[-0.03em] text-[var(--text)] lg:text-[30px]">
                 Production Board
               </h1>
-              <p className="mt-1 max-w-2xl text-sm text-slate-500">
-                用 monday.com 風格去整理拍攝計劃、場景安排同 AI 分析，成個 trip 一眼睇晒。
+              <p className="mt-1 max-w-2xl text-sm text-[var(--muted)]">
+                用 SOON 內部工具風格去整理拍攝計劃、場景安排同 AI 分析，成個 trip 一眼睇晒。
               </p>
             </div>
           </div>
@@ -50,7 +50,7 @@ export default function Home() {
           <div className="flex flex-wrap items-center gap-3">
             <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface-soft)] px-4 py-3">
               <div className="section-label mono-label">today</div>
-              <div className="mt-1 text-sm font-semibold text-slate-700">
+              <div className="mt-1 text-sm font-semibold text-[var(--text)]">
                 {new Date().toLocaleDateString('zh-HK', {
                   weekday: 'short',
                   year: 'numeric',
@@ -71,30 +71,30 @@ export default function Home() {
             <div className="section-label mono-label">trip summary</div>
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <div className="text-2xl font-bold tracking-[-0.03em] text-slate-800">
+                <div className="text-2xl font-bold tracking-[-0.03em] text-[var(--text)]">
                   {trip?.name ?? '未設定拍攝行程'}
                 </div>
-                <div className="mt-2 flex flex-wrap gap-3 text-sm text-slate-500">
+                <div className="mt-2 flex flex-wrap gap-3 text-sm text-[var(--muted)]">
                   {trip ? (
                     <>
-                      <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1">
+                      <span className="inline-flex items-center gap-2 rounded-full bg-[rgba(255,255,255,0.06)] px-3 py-1">
                         <CalendarDays className="h-4 w-4 text-[var(--primary)]" />
                         {fmtDateShort(new Date(trip.start))} → {fmtDateShort(new Date(trip.end))}
                       </span>
-                      <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1">
+                      <span className="inline-flex items-center gap-2 rounded-full bg-[rgba(255,255,255,0.06)] px-3 py-1">
                         <MapPinned className="h-4 w-4 text-[var(--success)]" />
                         {countries} 個拍攝國家
                       </span>
                     </>
                   ) : (
-                    <span className="rounded-full bg-slate-100 px-3 py-1">請先設定日期範圍同 trip 名稱</span>
+                    <span className="rounded-full bg-[rgba(255,255,255,0.06)] px-3 py-1">請先設定日期範圍同 trip 名稱</span>
                   )}
                 </div>
               </div>
               {trip && (
                 <div className="rounded-2xl bg-[var(--surface-soft)] px-4 py-3 text-right">
                   <div className="section-label mono-label">duration</div>
-                  <div className="mt-1 text-xl font-bold text-slate-800">{trip.days} days</div>
+                  <div className="mt-1 text-xl font-bold text-[var(--text)]">{trip.days} days</div>
                 </div>
               )}
             </div>
@@ -121,8 +121,8 @@ export default function Home() {
                   onClick={() => setTab(key)}
                   className={`inline-flex items-center gap-2 rounded-t-2xl border border-b-0 px-4 py-3 text-sm font-semibold transition-all ${
                     tab === key
-                      ? 'border-[var(--line)] bg-white text-[var(--primary)]'
-                      : 'border-transparent bg-transparent text-slate-500 hover:bg-white/70 hover:text-slate-700'
+                      ? 'border-[var(--line)] bg-[var(--surface)] text-[var(--text)]'
+                      : 'border-transparent bg-transparent text-[var(--muted)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--text)]'
                   }`}
                   type="button"
                 >
@@ -133,7 +133,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex-1 bg-white">
+          <div className="flex-1 bg-[var(--surface)]">
             {tab === 'plan' && (
               <div className="grid gap-0 xl:grid-cols-[420px_minmax(0,1fr)]">
                 <div className="border-b border-[var(--line)] bg-[var(--surface-soft)] xl:border-b-0 xl:border-r">
@@ -143,9 +143,9 @@ export default function Home() {
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                     <div>
                       <div className="section-label mono-label">shot inventory</div>
-                      <h2 className="mt-1 text-xl font-bold tracking-[-0.03em] text-slate-800">Scene List</h2>
+                      <h2 className="mt-1 text-xl font-bold tracking-[-0.03em] text-[var(--text)]">Scene List</h2>
                     </div>
-                    <div className="rounded-full bg-[var(--primary-soft)] px-3 py-1.5 text-sm font-semibold text-[var(--primary)]">
+                    <div className="rounded-full bg-[var(--primary-soft)] px-3 py-1.5 text-sm font-semibold text-[#cfd5ff]">
                       {shots.length} items
                     </div>
                   </div>

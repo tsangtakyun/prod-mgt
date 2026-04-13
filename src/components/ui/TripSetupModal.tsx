@@ -34,24 +34,24 @@ export default function TripSetupModal({ onClose }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 px-4 backdrop-blur-sm">
-      <div className="w-full max-w-[520px] rounded-[28px] border border-[var(--line)] bg-white p-6 shadow-[0_30px_80px_rgba(15,23,42,0.18)]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
+      <div className="w-full max-w-[520px] rounded-[28px] border border-[var(--line)] bg-[var(--surface)] p-6 shadow-[0_30px_80px_rgba(0,0,0,0.32)]">
         <div className="mb-5 flex items-start gap-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--primary-soft)] text-[var(--primary)]">
             <Plane className="h-5 w-5" />
           </div>
           <div>
             <div className="section-label mono-label">trip setup</div>
-            <h2 className="mt-1 text-2xl font-bold tracking-[-0.03em] text-slate-800">設定行程日期範圍</h2>
-            <p className="mt-1 text-sm text-slate-500">先建立 trip 基本資料，之後先可以安排每一個拍攝場景。</p>
+            <h2 className="mt-1 text-2xl font-bold tracking-[-0.03em] text-[var(--text)]">設定行程日期範圍</h2>
+            <p className="mt-1 text-sm text-[var(--muted)]">先建立 trip 基本資料，之後先可以安排每一個拍攝場景。</p>
           </div>
         </div>
 
         <div className="mb-4 grid gap-3 md:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">出發日期</label>
+            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">出發日期</label>
             <div className="relative">
-              <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted-soft)]" />
               <input
                 type="date"
                 value={start}
@@ -61,9 +61,9 @@ export default function TripSetupModal({ onClose }: Props) {
             </div>
           </div>
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">返回日期</label>
+            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">返回日期</label>
             <div className="relative">
-              <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted-soft)]" />
               <input
                 type="date"
                 value={end}
@@ -75,7 +75,7 @@ export default function TripSetupModal({ onClose }: Props) {
         </div>
 
         <div className="mb-5">
-          <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">行程名稱（可選）</label>
+          <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">行程名稱（可選）</label>
           <input
             type="text"
             value={name}

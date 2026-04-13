@@ -31,18 +31,18 @@ export default function CountrySelector({ value, onChange }: Props) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex h-[46px] w-full items-center gap-2 rounded-xl border border-[var(--line)] bg-white px-3 text-sm transition-colors hover:border-[var(--line-strong)]"
+        className="flex h-[46px] w-full items-center gap-2 rounded-xl border border-[var(--line)] bg-[rgba(255,255,255,0.05)] px-3 text-sm transition-colors hover:border-[var(--line-strong)]"
       >
         <span className="text-base leading-none">{value?.flag ?? '🌍'}</span>
-        <span className="flex-1 text-left text-sm text-slate-600">{value?.name ?? '選擇國家'}</span>
-        <ChevronDown className="h-4 w-4 text-slate-400" />
+        <span className="flex-1 text-left text-sm text-[var(--muted)]">{value?.name ?? '選擇國家'}</span>
+        <ChevronDown className="h-4 w-4 text-[var(--muted-soft)]" />
       </button>
 
       {open && (
-        <div className="absolute left-0 top-[calc(100%+6px)] z-50 w-64 overflow-hidden rounded-2xl border border-[var(--line)] bg-white shadow-[0_16px_40px_rgba(15,23,42,0.12)]">
+        <div className="absolute left-0 top-[calc(100%+6px)] z-50 w-64 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)] shadow-[0_16px_40px_rgba(0,0,0,0.28)]">
           <div className="border-b border-[var(--line)] p-2">
             <div className="relative">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted-soft)]" />
               <input
                 autoFocus
                 value={search}
@@ -58,7 +58,7 @@ export default function CountrySelector({ value, onChange }: Props) {
                 key={c.code}
                 type="button"
                 onClick={() => { onChange(c); setOpen(false); setSearch('') }}
-                className="flex w-full items-center gap-3 px-3 py-2.5 text-sm text-slate-600 transition-colors hover:bg-slate-50"
+                className="flex w-full items-center gap-3 px-3 py-2.5 text-sm text-[var(--muted)] transition-colors hover:bg-[rgba(255,255,255,0.05)]"
               >
                 <span className="text-base">{c.flag}</span>
                 <span>{c.name}</span>

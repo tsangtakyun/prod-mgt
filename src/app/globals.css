@@ -2,23 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 :root {
-  --bg: #f5f6f8;
-  --surface: #ffffff;
-  --surface-soft: #f9fafc;
-  --line: #d9e1ec;
-  --line-strong: #c7d2e3;
-  --text: #1f2937;
-  --muted: #6b7280;
-  --muted-soft: #8b95a7;
-  --primary: #0073ea;
-  --primary-soft: #e9f3ff;
-  --success: #00c875;
-  --danger: #e2445c;
-  --warning: #fdab3d;
-  --shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+  --bg: #13141f;
+  --surface: #1a1c2e;
+  --surface-soft: #20233a;
+  --line: rgba(255,255,255,0.08);
+  --line-strong: rgba(124,131,214,0.38);
+  --text: #e8eaf6;
+  --muted: #a5adde;
+  --muted-soft: #6b74c4;
+  --primary: #7c83d6;
+  --primary-soft: rgba(124,131,214,0.16);
+  --success: #8ce99a;
+  --danger: #ffa8a8;
+  --warning: #ffa94d;
+  --shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
 }
 
 html {
@@ -26,10 +26,8 @@ html {
 }
 
 body {
-  font-family: 'Figtree', sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(0, 115, 234, 0.08), transparent 22%),
-    linear-gradient(180deg, #f7f9fc 0%, #f3f5f8 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, #1d2037 0%, #13141f 100%);
   color: var(--text);
 }
 
@@ -61,7 +59,7 @@ select {
   .input {
     @apply w-full rounded-xl border px-3.5 py-2.5 text-sm outline-none transition-colors;
     border-color: var(--line);
-    background: #fff;
+    background: rgba(255,255,255,0.05);
     color: var(--text);
   }
 
@@ -71,7 +69,7 @@ select {
 
   .input:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(0, 115, 234, 0.12);
+    box-shadow: 0 0 0 3px rgba(124, 131, 214, 0.12);
   }
 
   .pill {
@@ -80,48 +78,48 @@ select {
 
   .pill-default {
     border-color: var(--line);
-    background: #fff;
+    background: rgba(255,255,255,0.04);
     color: var(--muted);
   }
 
   .pill-default:hover {
     border-color: var(--line-strong);
     color: var(--text);
-    background: #f8fafc;
+    background: rgba(255,255,255,0.07);
   }
 
   .pill-primary {
-    border-color: transparent;
+    border-color: rgba(124,131,214,0.42);
     background: var(--primary-soft);
-    color: var(--primary);
+    color: var(--text);
   }
 
   .top-pill {
     @apply rounded-full px-3 py-1 text-xs font-semibold;
-    background: #eef2ff;
-    color: #4f46e5;
+    background: rgba(124,131,214,0.18);
+    color: #cfd5ff;
   }
 
   .primary-btn {
     @apply rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all;
-    background: var(--primary);
-    box-shadow: 0 10px 20px rgba(0, 115, 234, 0.18);
+    background: linear-gradient(135deg, #7c83d6, #5c6bc0);
+    box-shadow: 0 14px 32px rgba(92, 107, 192, 0.24);
   }
 
   .primary-btn:hover {
-    background: #0060c7;
+    filter: brightness(1.06);
   }
 
   .secondary-btn {
     @apply rounded-xl border px-4 py-2.5 text-sm font-semibold transition-all;
     border-color: var(--line);
-    background: #fff;
+    background: rgba(255,255,255,0.04);
     color: var(--text);
   }
 
   .secondary-btn:hover {
     border-color: var(--line-strong);
-    background: #f8fafc;
+    background: rgba(255,255,255,0.07);
   }
 
   .section-label {
@@ -140,7 +138,7 @@ select {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.5);
+  background: rgba(255,255,255,0.12);
   border-radius: 999px;
 }
 

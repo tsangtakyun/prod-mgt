@@ -8,7 +8,7 @@ export default function ScheduleView() {
   const shots = useStore((s) => s.shots)
 
   if (!trip || !shots.length) {
-    return <div className="p-6 text-center text-sm text-slate-400">請先設定行程日期並加入場景</div>
+    return <div className="p-6 text-center text-sm text-[var(--muted)]">請先設定行程日期並加入場景</div>
   }
 
   const totalMins = shots.reduce((a, s) => a + parseInt(s.dur), 0)
@@ -25,7 +25,7 @@ export default function ScheduleView() {
         ].map((s) => (
           <div key={s.key} className="workspace-card px-4 py-4">
             <div className={`text-3xl font-bold tracking-[-0.04em] ${s.color}`}>{s.val}</div>
-            <div className="mt-1 text-sm text-slate-500">{s.key}</div>
+            <div className="mt-1 text-sm text-[var(--muted)]">{s.key}</div>
           </div>
         ))}
       </div>
@@ -39,19 +39,19 @@ export default function ScheduleView() {
 
           return (
             <section key={dayIdx} className="workspace-card overflow-hidden">
-              <div className="flex flex-wrap items-center gap-3 border-b border-[var(--line)] bg-slate-50 px-5 py-4">
-                <span className="rounded-full bg-[var(--primary-soft)] px-3 py-1 text-xs font-semibold text-[var(--primary)]">
+              <div className="flex flex-wrap items-center gap-3 border-b border-[var(--line)] bg-[var(--surface-soft)] px-5 py-4">
+                <span className="rounded-full bg-[var(--primary-soft)] px-3 py-1 text-xs font-semibold text-[#cfd5ff]">
                   DAY {dayIdx + 1}
                 </span>
-                <span className="text-sm font-medium text-slate-700">{fmtDate(dateObj)}</span>
+                <span className="text-sm font-medium text-[var(--text)]">{fmtDate(dateObj)}</span>
                 {!dayShots.length && (
-                  <span className="text-sm italic text-slate-400">未有安排</span>
+                  <span className="text-sm italic text-[var(--muted)]">未有安排</span>
                 )}
               </div>
 
               <div className="space-y-0">
                 {dayShots.length === 0 ? (
-                  <div className="px-5 py-8 text-sm text-slate-400">呢一日仲未安排任何拍攝。</div>
+                  <div className="px-5 py-8 text-sm text-[var(--muted)]">呢一日仲未安排任何拍攝。</div>
                 ) : (
                   dayShots.map((s, i) => {
                     const tm = TOD_META[s.tod]
@@ -61,20 +61,20 @@ export default function ScheduleView() {
                     return (
                       <div key={s.id} className="border-t border-[var(--line)] first:border-t-0">
                         {crossCountry && (
-                          <div className="border-b border-[var(--line)] bg-[#fff3e8] px-5 py-2 text-xs font-semibold text-[#b54708]">
+                          <div className="border-b border-[var(--line)] bg-[rgba(255,169,77,0.10)] px-5 py-2 text-xs font-semibold text-[var(--warning)]">
                             ✈ 跨國移動
                           </div>
                         )}
                         <div className="flex flex-col gap-3 px-5 py-4 lg:flex-row lg:items-start lg:justify-between">
                           <div className="min-w-0 flex-1">
-                            <div className="mb-1 text-lg font-semibold text-slate-800">{s.name}</div>
-                            <div className="flex flex-wrap gap-3 text-sm text-slate-500">
+                            <div className="mb-1 text-lg font-semibold text-[var(--text)]">{s.name}</div>
+                            <div className="flex flex-wrap gap-3 text-sm text-[var(--muted)]">
                               <span>{s.country.flag} {s.loc}</span>
                               <span className="font-medium" style={{ color: tm.color }}>{tm.hint}</span>
                               <span>{durLabel(s.dur)}</span>
                             </div>
                             {s.props && (
-                              <div className="mt-2 text-sm text-slate-500">🎒 {s.props}</div>
+                              <div className="mt-2 text-sm text-[var(--muted)]">🎒 {s.props}</div>
                             )}
                           </div>
 
