@@ -31,6 +31,14 @@ body {
   color: var(--text);
 }
 
+body.embedded {
+  background: var(--bg);
+}
+
+body.embedded .soon-hide-embedded {
+  display: none !important;
+}
+
 button,
 input,
 textarea,

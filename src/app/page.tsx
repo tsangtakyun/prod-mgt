@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CalendarDays, LayoutGrid, Sparkles, MapPinned, Plus } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import TripSetupModal from '@/components/ui/TripSetupModal'
@@ -26,12 +26,18 @@ export default function Home() {
   const [tab, setTab] = useState<Tab>('plan')
   const [showModal, setShowModal] = useState(!trip)
 
+  useEffect(() => {
+    const isEmbedded = new URLSearchParams(window.location.search).get('embedded') === 'true'
+    document.body.classList.toggle('embedded', isEmbedded)
+    return () => document.body.classList.remove('embedded')
+  }, [])
+
   return (
     <div className="workspace-shell">
       {showModal && <TripSetupModal onClose={() => setShowModal(false)} />}
 
       <div className="mx-auto flex min-h-screen max-w-[1440px] flex-col px-5 pb-8 pt-5 lg:px-8">
-        <header className="workspace-card mb-4 flex flex-col gap-4 px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
+        <header className="workspace-card soon-hide-embedded mb-4 flex flex-col gap-4 px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-start gap-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--primary-soft)] text-[var(--primary)]">
               <LayoutGrid className="h-6 w-6" />
@@ -113,7 +119,7 @@ export default function Home() {
         </section>
 
         <section className="workspace-card flex flex-1 flex-col overflow-hidden">
-          <div className="border-b border-[var(--line)] bg-[var(--surface-soft)] px-4 pt-4">
+          <div className="soon-hide-embedded border-b border-[var(--line)] bg-[var(--surface-soft)] px-4 pt-4">
             <div className="flex flex-wrap gap-2">
               {TABS.map(({ key, label, icon: Icon }) => (
                 <button
