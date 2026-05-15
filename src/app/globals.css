@@ -13,8 +13,8 @@
   --soon-purple-light: #a78bfa;
   --soon-purple-dim: rgba(124,58,237,0.15);
   --soon-text: #f5f5f5;
-  --soon-text-secondary: #888888;
-  --soon-text-muted: #555555;
+  --soon-text-secondary: #f5f5f5;
+  --soon-text-muted: #f5f5f5;
   --soon-radius: 8px;
   --soon-radius-lg: 12px;
 
@@ -85,7 +85,7 @@ select {
   }
 
   .input::placeholder {
-    color: var(--muted-soft);
+    color: rgba(245,245,245,0.72);
   }
 
   .input:focus {
@@ -145,7 +145,7 @@ select {
 
   .section-label {
     @apply text-[11px] font-semibold uppercase tracking-[0.18em];
-    color: var(--muted-soft);
+    color: var(--soon-text);
   }
 
   .mono-label {
