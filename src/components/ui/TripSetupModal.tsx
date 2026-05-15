@@ -51,7 +51,7 @@ export default function TripSetupModal({ onClose }: Props) {
           <div>
             <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">出發日期</label>
             <div className="relative">
-              <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted-soft)]" />
+              <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--soon-text)]" />
               <input
                 type="date"
                 value={start}
@@ -63,7 +63,7 @@ export default function TripSetupModal({ onClose }: Props) {
           <div>
             <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">返回日期</label>
             <div className="relative">
-              <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted-soft)]" />
+              <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--soon-text)]" />
               <input
                 type="date"
                 value={end}
