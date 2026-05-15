@@ -24,7 +24,7 @@ export default function Home() {
   const countries = new Set(shots.map((s) => s.country.code)).size
 
   const [tab, setTab] = useState<Tab>('plan')
-  const [showModal, setShowModal] = useState(!trip)
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     const isEmbedded = new URLSearchParams(window.location.search).get('embedded') === 'true'
@@ -72,7 +72,23 @@ export default function Home() {
           </div>
         </header>
 
-        <section className="mb-4 grid gap-3 lg:grid-cols-[1.3fr_repeat(3,0.7fr)]">
+        {!trip && (
+          <section className="workspace-card flex min-h-[420px] flex-1 items-center justify-center px-6 py-16 text-center">
+            <div className="mx-auto max-w-[420px]">
+              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--primary-soft)] text-[var(--primary)]">
+                <MapPinned className="h-7 w-7" />
+              </div>
+              <h2 className="text-2xl font-bold tracking-[-0.03em] text-[var(--text)]">未有拍攝行程</h2>
+              <p className="mt-2 text-sm text-[var(--muted)]">點擊建立你的第一個拍攝行程</p>
+              <button onClick={() => setShowModal(true)} className="primary-btn mt-6 inline-flex items-center gap-2" type="button">
+                <Plus className="h-4 w-4" />
+                Setup Trip
+              </button>
+            </div>
+          </section>
+        )}
+
+        {trip && <section className="mb-4 grid gap-3 lg:grid-cols-[1.3fr_repeat(3,0.7fr)]">
           <div className="workspace-card flex flex-col gap-3 px-5 py-4">
             <div className="section-label mono-label">trip summary</div>
             <div className="flex flex-wrap items-start justify-between gap-4">
@@ -116,9 +132,9 @@ export default function Home() {
               <div className={`mt-3 text-3xl font-bold tracking-[-0.04em] ${item.tone}`}>{item.value}</div>
             </div>
           ))}
-        </section>
+        </section>}
 
-        <section className="workspace-card flex flex-1 flex-col overflow-hidden">
+        {trip && <section className="workspace-card flex flex-1 flex-col overflow-hidden">
           <div className="soon-hide-embedded border-b border-[var(--line)] bg-[var(--surface-soft)] px-4 pt-4">
             <div className="flex flex-wrap gap-2">
               {TABS.map(({ key, label, icon: Icon }) => (
@@ -163,7 +179,7 @@ export default function Home() {
             {tab === 'schedule' && <ScheduleView />}
             {tab === 'analysis' && <AnalysisView />}
           </div>
-        </section>
+        </section>}
       </div>
     </div>
   )

@@ -5,19 +5,32 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 :root {
-  --bg: #13141f;
-  --surface: #1a1c2e;
-  --surface-soft: #20233a;
-  --line: rgba(255,255,255,0.08);
-  --line-strong: rgba(124,131,214,0.38);
-  --text: #e8eaf6;
-  --muted: #a5adde;
-  --muted-soft: #6b74c4;
-  --primary: #7c83d6;
-  --primary-soft: rgba(124,131,214,0.16);
-  --success: #8ce99a;
-  --danger: #ffa8a8;
-  --warning: #ffa94d;
+  --soon-bg: #0a0a0a;
+  --soon-surface: #141414;
+  --soon-surface2: #1c1c1c;
+  --soon-border: rgba(255,255,255,0.08);
+  --soon-purple: #7c3aed;
+  --soon-purple-light: #a78bfa;
+  --soon-purple-dim: rgba(124,58,237,0.15);
+  --soon-text: #f5f5f5;
+  --soon-text-secondary: #888888;
+  --soon-text-muted: #555555;
+  --soon-radius: 8px;
+  --soon-radius-lg: 12px;
+
+  --bg: var(--soon-bg);
+  --surface: var(--soon-surface);
+  --surface-soft: var(--soon-surface2);
+  --line: var(--soon-border);
+  --line-strong: rgba(255,255,255,0.15);
+  --text: var(--soon-text);
+  --muted: var(--soon-text-secondary);
+  --muted-soft: var(--soon-text-muted);
+  --primary: var(--soon-purple);
+  --primary-soft: var(--soon-purple-dim);
+  --success: #34d399;
+  --danger: #ef4444;
+  --warning: #f59e0b;
   --shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
 }
 
@@ -26,9 +39,9 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: linear-gradient(180deg, #1d2037 0%, #13141f 100%);
-  color: var(--text);
+  font-family: system-ui, sans-serif;
+  background: var(--soon-bg);
+  color: var(--soon-text);
 }
 
 body.embedded {
@@ -110,8 +123,8 @@ select {
 
   .primary-btn {
     @apply rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all;
-    background: linear-gradient(135deg, #7c83d6, #5c6bc0);
-    box-shadow: 0 14px 32px rgba(92, 107, 192, 0.24);
+    background: var(--soon-purple);
+    box-shadow: 0 14px 32px rgba(124, 58, 237, 0.24);
   }
 
   .primary-btn:hover {
