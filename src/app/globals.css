@@ -99,8 +99,8 @@ select {
 
   .pill-default {
     border-color: var(--line);
-    background: rgba(255,255,255,0.04);
-    color: var(--muted);
+    background: var(--soon-surface2);
+    color: var(--soon-text);
   }
 
   .pill-default:hover {
@@ -110,9 +110,9 @@ select {
   }
 
   .pill-primary {
-    border-color: rgba(124,131,214,0.42);
-    background: var(--primary-soft);
-    color: var(--text);
+    border-color: var(--soon-purple);
+    background: var(--soon-purple);
+    color: #fff;
   }
 
   .top-pill {

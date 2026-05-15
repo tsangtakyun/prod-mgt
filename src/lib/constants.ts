@@ -6,7 +6,7 @@ export const COUNTRIES: Country[] = [
   { code: 'TW', flag: '🇹🇼', name: '台灣' },
   { code: 'CN', flag: '🇨🇳', name: '中國內地' },
   { code: 'JP', flag: '🇯🇵', name: '日本' },
-  { code: 'KR', flag: '🇰🇷', name: '南韓' },
+  { code: 'KR', flag: '🇰🇷', name: '韓國' },
   { code: 'SG', flag: '🇸🇬', name: '新加坡' },
   { code: 'TH', flag: '🇹🇭', name: '泰國' },
   { code: 'VN', flag: '🇻🇳', name: '越南' },
@@ -42,28 +42,28 @@ export const COUNTRIES: Country[] = [
 ]
 
 export const PLATFORMS: PlatformMeta[] = [
-  { id: 'ig_reel', label: 'IG Reel',        color: '#e040c8', rgb: '224,64,200' },
-  { id: 'youtube', label: 'YouTube',         color: '#ff5555', rgb: '255,85,85' },
-  { id: 'photo',   label: 'Photo Shooting',  color: '#7a9ee8', rgb: '122,158,232' },
-  { id: 'podcast', label: 'Podcast',         color: '#78d492', rgb: '120,212,146' },
-  { id: 'tiktok',  label: 'TikTok',          color: '#00d4aa', rgb: '0,212,170' },
-  { id: 'event',   label: 'Event',           color: '#e8c97a', rgb: '232,201,122' },
-  { id: 'bts',     label: 'BTS',             color: '#b07aff', rgb: '176,122,255' },
-  { id: 'other',   label: '其他',             color: '#888888', rgb: '136,136,136' },
+  { id: 'ig_reel', label: 'IG Reel', color: '#e040c8', rgb: '224,64,200' },
+  { id: 'youtube', label: 'YouTube', color: '#ff5555', rgb: '255,85,85' },
+  { id: 'photo', label: '相片拍攝', color: '#7a9ee8', rgb: '122,158,232' },
+  { id: 'podcast', label: '播客', color: '#78d492', rgb: '120,212,146' },
+  { id: 'tiktok', label: 'TikTok', color: '#00d4aa', rgb: '0,212,170' },
+  { id: 'event', label: '活動', color: '#e8c97a', rgb: '232,201,122' },
+  { id: 'bts', label: '幕後花絮', color: '#b07aff', rgb: '176,122,255' },
+  { id: 'other', label: '其他', color: '#888888', rgb: '136,136,136' },
 ]
 
 export const TOD_META: Record<string, TimeOfDayMeta> = {
-  dawn:   { label: '日出/清晨', icon: '🌅', hint: '約 5:30–7:30am', color: '#f4a261' },
-  day:    { label: '日光',     icon: '☀️',  hint: '約 9am–4pm',    color: '#e8c97a' },
-  golden: { label: '黃金時段', icon: '🌇', hint: '日落前 1小時',   color: '#ff8c42' },
-  dusk:   { label: '黃昏',     icon: '🌆', hint: '約 6–8pm',      color: '#c77dff' },
-  night:  { label: '夜晚',     icon: '🌙', hint: '8pm 後',        color: '#7a9ee8' },
-  flex:   { label: '彈性',     icon: '🔄', hint: 'AI 決定最佳時間', color: '#78d492' },
+  dawn: { label: '日出/清晨', icon: '🌅', hint: '約 5:30-8:30am', color: '#f4a261' },
+  day: { label: '日光', icon: '☀️', hint: '約 9am-4pm', color: '#e8c97a' },
+  golden: { label: '黃金時段', icon: '🌇', hint: '日落前約 1 小時', color: '#ff8c42' },
+  dusk: { label: '黃昏', icon: '🌆', hint: '約 6-8pm', color: '#c77dff' },
+  night: { label: '夜晚', icon: '🌙', hint: '8pm 後', color: '#7a9ee8' },
+  flex: { label: '彈性', icon: '✨', hint: '按場景需要安排', color: '#78d492' },
 }
 
 export const DURATIONS: { value: Duration; label: string }[] = [
-  { value: '30',  label: '30分' },
-  { value: '60',  label: '1小時' },
+  { value: '30', label: '30分' },
+  { value: '60', label: '1小時' },
   { value: '120', label: '2小時' },
   { value: '180', label: '3小時' },
   { value: '240', label: '4小時' },
@@ -71,5 +71,10 @@ export const DURATIONS: { value: Duration; label: string }[] = [
 ]
 
 export const TOD_ORDER: Record<string, number> = {
-  dawn: 0, day: 1, golden: 2, dusk: 3, night: 4, flex: 5,
+  dawn: 0,
+  day: 1,
+  golden: 2,
+  dusk: 3,
+  night: 4,
+  flex: 5,
 }

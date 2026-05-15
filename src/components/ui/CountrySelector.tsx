@@ -1,4 +1,5 @@
 'use client'
+
 import { useState, useRef, useEffect } from 'react'
 import { ChevronDown, Search } from 'lucide-react'
 import { COUNTRIES } from '@/lib/constants'
@@ -6,7 +7,7 @@ import type { Country } from '@/types'
 
 interface Props {
   value: Country | null
-  onChange: (c: Country) => void
+  onChange: (country: Country) => void
 }
 
 export default function CountrySelector({ value, onChange }: Props) {
@@ -15,26 +16,26 @@ export default function CountrySelector({ value, onChange }: Props) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    function handler(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    function handler(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) setOpen(false)
     }
     document.addEventListener('click', handler)
     return () => document.removeEventListener('click', handler)
   }, [])
 
   const filtered = search
-    ? COUNTRIES.filter((c) => c.name.includes(search) || c.code.toLowerCase().includes(search.toLowerCase()))
+    ? COUNTRIES.filter((country) => country.name.includes(search) || country.code.toLowerCase().includes(search.toLowerCase()))
     : COUNTRIES
 
   return (
     <div ref={ref} className="relative">
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => setOpen((current) => !current)}
         className="flex h-[46px] w-full items-center gap-2 rounded-xl border border-[var(--line)] bg-[rgba(255,255,255,0.05)] px-3 text-sm transition-colors hover:border-[var(--line-strong)]"
       >
         <span className="text-base leading-none">{value?.flag ?? '🌍'}</span>
-        <span className="flex-1 text-left text-sm text-[var(--muted)]">{value?.name ?? '選擇國家'}</span>
+        <span className="flex-1 text-left text-sm text-[var(--text)]">{value?.name ?? '選擇國家'}</span>
         <ChevronDown className="h-4 w-4 text-[var(--muted-soft)]" />
       </button>
 
@@ -43,25 +44,23 @@ export default function CountrySelector({ value, onChange }: Props) {
           <div className="border-b border-[var(--line)] p-2">
             <div className="relative">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted-soft)]" />
-              <input
-                autoFocus
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="搜尋國家..."
-                className="input pl-9"
-              />
+              <input autoFocus value={search} onChange={(event) => setSearch(event.target.value)} placeholder="搜尋國家..." className="input pl-9" />
             </div>
           </div>
           <div className="max-h-60 overflow-y-auto py-1">
-            {filtered.map((c) => (
+            {filtered.map((country) => (
               <button
-                key={c.code}
+                key={country.code}
                 type="button"
-                onClick={() => { onChange(c); setOpen(false); setSearch('') }}
-                className="flex w-full items-center gap-3 px-3 py-2.5 text-sm text-[var(--muted)] transition-colors hover:bg-[rgba(255,255,255,0.05)]"
+                onClick={() => {
+                  onChange(country)
+                  setOpen(false)
+                  setSearch('')
+                }}
+                className="flex w-full items-center gap-3 px-3 py-2.5 text-sm text-[var(--text)] transition-colors hover:bg-[rgba(255,255,255,0.05)]"
               >
-                <span className="text-base">{c.flag}</span>
-                <span>{c.name}</span>
+                <span className="text-base">{country.flag}</span>
+                <span>{country.name}</span>
               </button>
             ))}
           </div>

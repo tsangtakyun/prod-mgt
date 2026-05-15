@@ -1,4 +1,5 @@
 'use client'
+
 import { useState } from 'react'
 import { useStore } from '@/lib/store'
 import { PLATFORMS, TOD_META, DURATIONS } from '@/lib/constants'
@@ -21,13 +22,35 @@ export default function ShotForm() {
   const [error, setError] = useState('')
 
   function submit() {
-    if (!name.trim()) { setError('請填寫片段名稱'); return }
-    if (day === null) { setError('請選擇第幾日拍攝'); return }
-    if (!tod) { setError('請選擇拍攝時段'); return }
-    if (!dur) { setError('請選擇預計時長'); return }
-    if (!platform) { setError('請選擇平台 / 類型'); return }
-    if (!country) { setError('請選擇拍攝國家'); return }
-    if (!loc.trim()) { setError('請填寫具體地點'); return }
+    if (!name.trim()) {
+      setError('請輸入片段名稱')
+      return
+    }
+    if (day === null) {
+      setError('請選擇拍攝日')
+      return
+    }
+    if (!tod) {
+      setError('請選擇拍攝時段')
+      return
+    }
+    if (!dur) {
+      setError('請選擇預計時長')
+      return
+    }
+    if (!platform) {
+      setError('請選擇平台 / 類型')
+      return
+    }
+    if (!country) {
+      setError('請選擇國家')
+      return
+    }
+    if (!loc.trim()) {
+      setError('請輸入拍攝地點')
+      return
+    }
+
     setError('')
     addShot({ name: name.trim(), day, tod, dur, type: platform, country, loc: loc.trim(), props: props.trim() })
     setName('')
@@ -45,9 +68,9 @@ export default function ShotForm() {
   return (
     <div className="space-y-5 p-5">
       <div>
-        <div className="section-label mono-label">new shot</div>
-        <h2 className="mt-1 text-xl font-bold tracking-[-0.03em] text-[var(--text)]">Add New Scene</h2>
-        <p className="mt-1 text-sm text-[var(--muted)]">好似喺 SOON internal board 開一個 item 咁，填完就會自動加入 scene list。</p>
+        <div className="section-label mono-label">新場景</div>
+        <h2 className="mt-1 text-xl font-bold tracking-[-0.03em] text-[var(--text)]">新增場景</h2>
+        <p className="mt-1 text-sm text-[var(--muted)]">填寫以下資料，完成後自動加入場景清單。</p>
       </div>
 
       <div>
@@ -63,17 +86,17 @@ export default function ShotForm() {
       <div>
         <Label>拍攝日（第幾日）</Label>
         {!trip ? (
-          <p className="text-sm text-[var(--muted)]">請先設定行程日期</p>
+          <p className="text-sm text-[var(--muted)]">請先建立行程日期範圍</p>
         ) : (
           <div className="flex flex-wrap gap-2">
-            {trip.dates.map((d, i) => (
+            {trip.dates.map((date, index) => (
               <button
-                key={i}
+                key={date.toISOString()}
                 type="button"
-                onClick={() => setDay(i)}
-                className={`pill ${day === i ? 'pill-primary' : 'pill-default'}`}
+                onClick={() => setDay(index)}
+                className={`pill ${day === index ? 'pill-primary' : 'pill-default'}`}
               >
-                Day {i + 1} · {fmtDateShort(new Date(d))}
+                第 {index + 1} 日 · {fmtDateShort(new Date(date))}
               </button>
             ))}
           </div>
@@ -86,19 +109,21 @@ export default function ShotForm() {
           <div className="flex flex-wrap gap-2">
             {todKeys.map((key) => {
               const meta = TOD_META[key]
-              const sel = tod === key
+              const selected = tod === key
               return (
                 <button
                   key={key}
                   type="button"
                   onClick={() => setTod(key)}
-                  className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all ${
-                    sel ? 'text-[var(--text)] shadow-sm' : 'text-[var(--muted)]'
-                  }`}
+                  className="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all"
                   style={
-                    sel
-                      ? { borderColor: meta.color, color: meta.color, background: '#fff' }
-                      : { borderColor: 'var(--line)', background: '#fff' }
+                    selected
+                      ? { borderColor: 'var(--soon-purple)', color: '#fff', background: 'var(--soon-purple)' }
+                      : {
+                          borderColor: 'var(--soon-border)',
+                          color: 'var(--soon-text)',
+                          background: 'var(--soon-surface2)',
+                        }
                   }
                 >
                   <span>{meta.icon}</span>
@@ -112,14 +137,14 @@ export default function ShotForm() {
         <div>
           <Label>預計時長</Label>
           <div className="flex flex-wrap gap-2">
-            {DURATIONS.map((d) => (
+            {DURATIONS.map((duration) => (
               <button
-                key={d.value}
+                key={duration.value}
                 type="button"
-                onClick={() => setDur(d.value)}
-                className={`pill ${dur === d.value ? 'pill-primary' : 'pill-default'}`}
+                onClick={() => setDur(duration.value)}
+                className={`pill ${dur === duration.value ? 'pill-primary' : 'pill-default'}`}
               >
-                {d.label}
+                {duration.label}
               </button>
             ))}
           </div>
@@ -129,21 +154,25 @@ export default function ShotForm() {
       <div>
         <Label>平台 / 類型</Label>
         <div className="flex flex-wrap gap-2">
-          {PLATFORMS.map((p) => {
-            const sel = platform?.id === p.id
+          {PLATFORMS.map((item) => {
+            const selected = platform?.id === item.id
             return (
               <button
-                key={p.id}
+                key={item.id}
                 type="button"
-                onClick={() => setPlatform(p)}
+                onClick={() => setPlatform(item)}
                 className="rounded-full border px-3 py-1.5 text-xs font-semibold transition-all"
                 style={
-                  sel
-                    ? { borderColor: p.color, color: p.color, background: '#fff' }
-                    : { borderColor: 'var(--line)', color: 'var(--muted)', background: '#fff' }
+                  selected
+                    ? { borderColor: 'var(--soon-purple)', color: '#fff', background: 'var(--soon-purple)' }
+                    : {
+                        borderColor: 'var(--soon-border)',
+                        color: 'var(--soon-text)',
+                        background: 'var(--soon-surface2)',
+                      }
                 }
               >
-                {p.label}
+                {item.label}
               </button>
             )
           })}
@@ -154,12 +183,7 @@ export default function ShotForm() {
         <Label>拍攝地點</Label>
         <div className="grid gap-2 lg:grid-cols-[190px_1fr]">
           <CountrySelector value={country} onChange={setCountry} />
-          <input
-            value={loc}
-            onChange={(e) => setLoc(e.target.value)}
-            placeholder="城市 / 具體地點"
-            className="input"
-          />
+          <input value={loc} onChange={(e) => setLoc(e.target.value)} placeholder="城市 / 具體地點" className="input" />
         </div>
       </div>
 
@@ -170,12 +194,12 @@ export default function ShotForm() {
             value={props}
             onChange={(e) => setProps(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && submit()}
-            placeholder="例：腳架、gimbal、無線咪、反光板..."
+            placeholder="例：腳架、gimbal、無線咪..."
             className="input"
           />
         </div>
-        <button onClick={submit} className="primary-btn">
-          Add item
+        <button onClick={submit} className="primary-btn" type="button">
+          新增
         </button>
       </div>
 

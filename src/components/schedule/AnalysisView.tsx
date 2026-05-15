@@ -1,4 +1,5 @@
 'use client'
+
 import { useState } from 'react'
 import { Sparkles } from 'lucide-react'
 import { useStore } from '@/lib/store'
@@ -22,15 +23,18 @@ export default function AnalysisView() {
       body: JSON.stringify({ shots, trip }),
     })
 
-    if (!res.body) { setLoading(false); return }
+    if (!res.body) {
+      setLoading(false)
+      return
+    }
 
     const reader = res.body.getReader()
-    const dec = new TextDecoder()
+    const decoder = new TextDecoder()
 
     while (true) {
-      const { done: d, value } = await reader.read()
-      if (d) break
-      setText((prev) => prev + dec.decode(value, { stream: true }))
+      const { done: readerDone, value } = await reader.read()
+      if (readerDone) break
+      setText((previous) => previous + decoder.decode(value, { stream: true }))
     }
 
     setLoading(false)
@@ -41,24 +45,25 @@ export default function AnalysisView() {
     <div className="p-5">
       <div className="mb-5 grid gap-4 xl:grid-cols-[320px_minmax(0,1fr)]">
         <div className="workspace-card px-5 py-5">
-          <div className="section-label mono-label">ai command center</div>
-          <h2 className="mt-1 text-2xl font-bold tracking-[-0.03em] text-[var(--text)]">Production Insights</h2>
+          <div className="section-label mono-label">AI 分析中心</div>
+          <h2 className="mt-1 text-2xl font-bold tracking-[-0.03em] text-[var(--text)]">製作分析</h2>
           <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
-            幫你快速睇清行程衝突、時間壓力、跨國移動同拍攝節奏，用 SOON internal tool 感覺一頁讀晒。
+            幫你快速檢查行程衝突、時間壓力、跨國移動同拍攝節奏，一頁睇清風險同建議。
           </p>
 
           <div className="mt-5 space-y-3">
             <div className="workspace-card-soft px-4 py-3">
-              <div className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">Scenes</div>
+              <div className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">場景數</div>
               <div className="mt-1 text-2xl font-bold text-[var(--primary)]">{shots.length}</div>
             </div>
             <button
               onClick={analyze}
               disabled={loading || !shots.length}
               className="primary-btn inline-flex w-full items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-50"
+              type="button"
             >
               <Sparkles className="h-4 w-4" />
-              {loading ? '分析中...' : 'Run AI Analysis'}
+              {loading ? '分析中...' : '開始 AI 分析'}
             </button>
           </div>
         </div>
@@ -67,7 +72,7 @@ export default function AnalysisView() {
           <div className="flex items-center gap-3 border-b border-[var(--line)] bg-[var(--surface-soft)] px-5 py-4">
             <span className={`inline-flex h-2.5 w-2.5 rounded-full ${loading ? 'animate-pulse bg-[var(--warning)]' : 'bg-[var(--success)]'}`} />
             <span className="text-sm font-semibold text-[var(--text)]">
-              {loading ? 'AI 分析中…' : done ? 'AI 分析完成' : '等待分析'}
+              {loading ? 'AI 分析中' : done ? 'AI 分析完成' : '準備分析'}
             </span>
           </div>
 
@@ -78,11 +83,7 @@ export default function AnalysisView() {
               </div>
             )}
 
-            {(loading || done) && (
-              <pre className="whitespace-pre-wrap font-sans text-sm leading-7 text-[var(--text)]">
-                {text}
-              </pre>
-            )}
+            {(loading || done) && <pre className="whitespace-pre-wrap font-sans text-sm leading-7 text-[var(--text)]">{text}</pre>}
           </div>
         </div>
       </div>

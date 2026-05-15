@@ -1,4 +1,5 @@
 'use client'
+
 import { useState } from 'react'
 import { CalendarDays, Plane } from 'lucide-react'
 import { buildTripDates } from '@/lib/utils'
@@ -19,8 +20,15 @@ export default function TripSetupModal({ onClose }: Props) {
   const [error, setError] = useState('')
 
   function confirm() {
-    if (!start || !end) { setError('請選擇出發同返回日期'); return }
-    if (end < start) { setError('返回日期不能早於出發日期'); return }
+    if (!start || !end) {
+      setError('請選擇出發日期同返回日期')
+      return
+    }
+    if (end < start) {
+      setError('返回日期不能早過出發日期')
+      return
+    }
+
     const dates = buildTripDates(start, end)
     const trip: Trip = {
       name: name.trim() || '未命名行程',
@@ -41,41 +49,37 @@ export default function TripSetupModal({ onClose }: Props) {
             <Plane className="h-5 w-5" />
           </div>
           <div>
-            <div className="section-label mono-label">trip setup</div>
+            <div className="section-label mono-label">行程設定</div>
             <h2 className="mt-1 text-2xl font-bold tracking-[-0.03em] text-[var(--text)]">設定行程日期範圍</h2>
-            <p className="mt-1 text-sm text-[var(--muted)]">先建立 trip 基本資料，之後先可以安排每一個拍攝場景。</p>
+            <p className="mt-1 text-sm text-[var(--muted)]">先建立 trip 基本資料，之後可以安排每一個拍攝場景。</p>
           </div>
         </div>
 
         <div className="mb-4 grid gap-3 md:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">出發日期</label>
+            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">
+              出發日期
+            </label>
             <div className="relative">
               <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--soon-text)]" />
-              <input
-                type="date"
-                value={start}
-                onChange={(e) => setStart(e.target.value)}
-                className="input pl-10"
-              />
+              <input type="date" value={start} onChange={(e) => setStart(e.target.value)} className="input pl-10" />
             </div>
           </div>
           <div>
-            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">返回日期</label>
+            <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">
+              返回日期
+            </label>
             <div className="relative">
               <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--soon-text)]" />
-              <input
-                type="date"
-                value={end}
-                onChange={(e) => setEnd(e.target.value)}
-                className="input pl-10"
-              />
+              <input type="date" value={end} onChange={(e) => setEnd(e.target.value)} className="input pl-10" />
             </div>
           </div>
         </div>
 
         <div className="mb-5">
-          <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">行程名稱（可選）</label>
+          <label className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--muted-soft)]">
+            行程名稱（可選）
+          </label>
           <input
             type="text"
             value={name}
@@ -93,10 +97,10 @@ export default function TripSetupModal({ onClose }: Props) {
 
         <div className="flex gap-3">
           <button onClick={onClose} className="secondary-btn flex-1" type="button">
-            Cancel
+            取消
           </button>
           <button onClick={confirm} className="primary-btn flex-1" type="button">
-            Confirm Trip
+            確認行程
           </button>
         </div>
       </div>

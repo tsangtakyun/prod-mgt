@@ -13,9 +13,9 @@ import { fmtDateShort } from '@/lib/utils'
 type Tab = 'plan' | 'schedule' | 'analysis'
 
 const TABS: Array<{ key: Tab; label: string; icon: typeof LayoutGrid }> = [
-  { key: 'plan', label: 'Content Board', icon: LayoutGrid },
-  { key: 'schedule', label: 'Schedule', icon: CalendarDays },
-  { key: 'analysis', label: 'AI Insights', icon: Sparkles },
+  { key: 'plan', label: '內容板', icon: LayoutGrid },
+  { key: 'schedule', label: '行程表', icon: CalendarDays },
+  { key: 'analysis', label: 'AI 分析', icon: Sparkles },
 ]
 
 export default function Home() {
@@ -43,19 +43,17 @@ export default function Home() {
               <LayoutGrid className="h-6 w-6" />
             </div>
             <div>
-              <div className="top-pill mb-2 inline-flex items-center gap-2">prod-mgt workspace</div>
-              <h1 className="text-2xl font-bold tracking-[-0.03em] text-[var(--text)] lg:text-[30px]">
-                Production Board
-              </h1>
+              <div className="top-pill mb-2 inline-flex items-center gap-2">製作行程工作區</div>
+              <h1 className="text-2xl font-bold tracking-[-0.03em] text-[var(--text)] lg:text-[30px]">行程中心</h1>
               <p className="mt-1 max-w-2xl text-sm text-[var(--muted)]">
-                用 SOON 內部工具風格去整理拍攝計劃、場景安排同 AI 分析，成個 trip 一眼睇晒。
+                管理拍攝行程、場景清單、排程同 AI 分析，一頁完成 production planning。
               </p>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface-soft)] px-4 py-3">
-              <div className="section-label mono-label">today</div>
+              <div className="section-label mono-label">今日</div>
               <div className="mt-1 text-sm font-semibold text-[var(--text)]">
                 {new Date().toLocaleDateString('zh-HK', {
                   weekday: 'short',
@@ -65,9 +63,9 @@ export default function Home() {
                 })}
               </div>
             </div>
-            <button onClick={() => setShowModal(true)} className="primary-btn inline-flex items-center gap-2">
+            <button onClick={() => setShowModal(true)} className="primary-btn inline-flex items-center gap-2" type="button">
               <Plus className="h-4 w-4" />
-              {trip ? 'Edit Trip' : 'Setup Trip'}
+              {trip ? '編輯行程' : '建立行程'}
             </button>
           </div>
         </header>
@@ -82,104 +80,98 @@ export default function Home() {
               <p className="mt-2 text-sm text-[var(--muted)]">點擊建立你的第一個拍攝行程</p>
               <button onClick={() => setShowModal(true)} className="primary-btn mt-6 inline-flex items-center gap-2" type="button">
                 <Plus className="h-4 w-4" />
-                Setup Trip
+                建立行程
               </button>
             </div>
           </section>
         )}
 
-        {trip && <section className="mb-4 grid gap-3 lg:grid-cols-[1.3fr_repeat(3,0.7fr)]">
-          <div className="workspace-card flex flex-col gap-3 px-5 py-4">
-            <div className="section-label mono-label">trip summary</div>
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <div className="text-2xl font-bold tracking-[-0.03em] text-[var(--text)]">
-                  {trip?.name ?? '未設定拍攝行程'}
+        {trip && (
+          <section className="mb-4 grid gap-3 lg:grid-cols-[1.3fr_repeat(3,0.7fr)]">
+            <div className="workspace-card flex flex-col gap-3 px-5 py-4">
+              <div className="section-label mono-label">行程摘要</div>
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <div className="text-2xl font-bold tracking-[-0.03em] text-[var(--text)]">{trip.name}</div>
+                  <div className="mt-2 flex flex-wrap gap-3 text-sm text-[var(--muted)]">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-[rgba(255,255,255,0.06)] px-3 py-1">
+                      <CalendarDays className="h-4 w-4 text-[var(--primary)]" />
+                      {fmtDateShort(new Date(trip.start))} 至 {fmtDateShort(new Date(trip.end))}
+                    </span>
+                    <span className="inline-flex items-center gap-2 rounded-full bg-[rgba(255,255,255,0.06)] px-3 py-1">
+                      <MapPinned className="h-4 w-4 text-[var(--success)]" />
+                      {countries} 個拍攝國家
+                    </span>
+                  </div>
                 </div>
-                <div className="mt-2 flex flex-wrap gap-3 text-sm text-[var(--muted)]">
-                  {trip ? (
-                    <>
-                      <span className="inline-flex items-center gap-2 rounded-full bg-[rgba(255,255,255,0.06)] px-3 py-1">
-                        <CalendarDays className="h-4 w-4 text-[var(--primary)]" />
-                        {fmtDateShort(new Date(trip.start))} → {fmtDateShort(new Date(trip.end))}
-                      </span>
-                      <span className="inline-flex items-center gap-2 rounded-full bg-[rgba(255,255,255,0.06)] px-3 py-1">
-                        <MapPinned className="h-4 w-4 text-[var(--success)]" />
-                        {countries} 個拍攝國家
-                      </span>
-                    </>
-                  ) : (
-                    <span className="rounded-full bg-[rgba(255,255,255,0.06)] px-3 py-1">請先設定日期範圍同 trip 名稱</span>
-                  )}
+                <div className="rounded-2xl bg-[var(--surface-soft)] px-4 py-3 text-right">
+                  <div className="section-label mono-label">行程日數</div>
+                  <div className="mt-1 text-xl font-bold text-[var(--text)]">{trip.days} 日</div>
                 </div>
               </div>
-              {trip && (
-                <div className="rounded-2xl bg-[var(--surface-soft)] px-4 py-3 text-right">
-                  <div className="section-label mono-label">duration</div>
-                  <div className="mt-1 text-xl font-bold text-[var(--text)]">{trip.days} days</div>
+            </div>
+
+            {[
+              { label: '場景數', value: shots.length, tone: 'text-[var(--primary)]' },
+              { label: '國家數', value: countries, tone: 'text-[var(--success)]' },
+              { label: '狀態', value: trip ? '進行中' : '待定', tone: 'text-[#7f56d9]' },
+            ].map((item) => (
+              <div key={item.label} className="workspace-card px-5 py-4">
+                <div className="section-label mono-label">{item.label}</div>
+                <div className={`mt-3 text-3xl font-bold tracking-[-0.04em] ${item.tone}`}>{item.value}</div>
+              </div>
+            ))}
+          </section>
+        )}
+
+        {trip && (
+          <section className="workspace-card flex flex-1 flex-col overflow-hidden">
+            <div className="soon-hide-embedded border-b border-[var(--line)] bg-[var(--surface-soft)] px-4 pt-4">
+              <div className="flex flex-wrap gap-2">
+                {TABS.map(({ key, label, icon: Icon }) => (
+                  <button
+                    key={key}
+                    onClick={() => setTab(key)}
+                    className={`inline-flex items-center gap-2 rounded-t-2xl border border-b-0 px-4 py-3 text-sm font-semibold transition-all ${
+                      tab === key
+                        ? 'border-[var(--line)] bg-[var(--surface)] text-[var(--text)]'
+                        : 'border-transparent bg-transparent text-[var(--muted)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--text)]'
+                    }`}
+                    type="button"
+                  >
+                    <Icon className="h-4 w-4" />
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex-1 bg-[var(--surface)]">
+              {tab === 'plan' && (
+                <div className="grid gap-0 xl:grid-cols-[420px_minmax(0,1fr)]">
+                  <div className="max-h-[calc(100vh-120px)] flex-shrink-0 overflow-y-auto border-b border-[var(--line)] bg-[var(--surface-soft)] xl:border-b-0 xl:border-r">
+                    <ShotForm />
+                  </div>
+                  <div className="min-h-[calc(100vh-220px)] flex-1 px-5 pb-6 pt-5">
+                    <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <div className="section-label mono-label">場景清單</div>
+                        <h2 className="mt-1 text-xl font-bold tracking-[-0.03em] text-[var(--text)]">場景清單</h2>
+                      </div>
+                      <div className="rounded-full bg-[var(--primary-soft)] px-3 py-1.5 text-sm font-semibold text-[#cfd5ff]">
+                        {shots.length} 個場景
+                      </div>
+                    </div>
+                    <ShotsTable />
+                  </div>
                 </div>
               )}
+
+              {tab === 'schedule' && <ScheduleView />}
+              {tab === 'analysis' && <AnalysisView />}
             </div>
-          </div>
-
-          {[
-            { label: 'Shots', value: shots.length, tone: 'text-[var(--primary)]' },
-            { label: 'Countries', value: countries, tone: 'text-[var(--success)]' },
-            { label: 'Status', value: trip ? 'Active' : 'Pending', tone: 'text-[#7f56d9]' },
-          ].map((item) => (
-            <div key={item.label} className="workspace-card px-5 py-4">
-              <div className="section-label mono-label">{item.label}</div>
-              <div className={`mt-3 text-3xl font-bold tracking-[-0.04em] ${item.tone}`}>{item.value}</div>
-            </div>
-          ))}
-        </section>}
-
-        {trip && <section className="workspace-card flex flex-1 flex-col overflow-hidden">
-          <div className="soon-hide-embedded border-b border-[var(--line)] bg-[var(--surface-soft)] px-4 pt-4">
-            <div className="flex flex-wrap gap-2">
-              {TABS.map(({ key, label, icon: Icon }) => (
-                <button
-                  key={key}
-                  onClick={() => setTab(key)}
-                  className={`inline-flex items-center gap-2 rounded-t-2xl border border-b-0 px-4 py-3 text-sm font-semibold transition-all ${
-                    tab === key
-                      ? 'border-[var(--line)] bg-[var(--surface)] text-[var(--text)]'
-                      : 'border-transparent bg-transparent text-[var(--muted)] hover:bg-[rgba(255,255,255,0.04)] hover:text-[var(--text)]'
-                  }`}
-                  type="button"
-                >
-                  <Icon className="h-4 w-4" />
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex-1 bg-[var(--surface)]">
-            {tab === 'plan' && (
-              <div className="grid gap-0 xl:grid-cols-[420px_minmax(0,1fr)]">
-                <div className="border-b border-[var(--line)] bg-[var(--surface-soft)] xl:border-b-0 xl:border-r">
-                  <ShotForm />
-                </div>
-                <div className="px-5 pb-6 pt-5">
-                  <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-                    <div>
-                      <div className="section-label mono-label">shot inventory</div>
-                      <h2 className="mt-1 text-xl font-bold tracking-[-0.03em] text-[var(--text)]">Scene List</h2>
-                    </div>
-                    <div className="rounded-full bg-[var(--primary-soft)] px-3 py-1.5 text-sm font-semibold text-[#cfd5ff]">
-                      {shots.length} items
-                    </div>
-                  </div>
-                  <ShotsTable />
-                </div>
-              </div>
-            )}
-
-            {tab === 'schedule' && <ScheduleView />}
-            {tab === 'analysis' && <AnalysisView />}
-          </div>
-        </section>}
+          </section>
+        )}
       </div>
     </div>
   )

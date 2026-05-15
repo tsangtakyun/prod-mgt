@@ -23,8 +23,12 @@ export function fmtDateShort(date: Date): string {
 
 export function durLabel(dur: string): string {
   const map: Record<string, string> = {
-    '30': '30分', '60': '1小時', '120': '2小時',
-    '180': '3小時', '240': '4小時', '360': '半日',
+    '30': '30分',
+    '60': '1小時',
+    '120': '2小時',
+    '180': '3小時',
+    '240': '4小時',
+    '360': '半日',
   }
   return map[dur] ?? dur
 }
